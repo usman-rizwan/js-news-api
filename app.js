@@ -7,7 +7,7 @@ const getNews = () => {
     return new Promise((resolve, reject) => {
         let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
         let api = `https://newsapi.org/v2/everything?q=${input.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
-        axios(api)
+        axios.get(api)
             .then((res) => {
                 if (
                     Array.isArray(res.data.articles) && res.data.articles.length === 0) {
@@ -27,7 +27,6 @@ const renderNews = async () => {
     try {
         if (input.value.trim()) {
     
-       
         newsContainer.innerHTML = "";
         let response = await getNews();
         console.log(response.data.articles);
