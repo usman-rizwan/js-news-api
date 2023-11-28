@@ -1,4 +1,4 @@
-let input = document.getElementById("input");
+let userInput = document.getElementById("input");
 let newsContainer = document.getElementById("newsContainer");
 // let loaderSpin = document.getElementById("loaderSpin");
 // loaderSpin.style.display = "none";
@@ -6,7 +6,7 @@ let newsContainer = document.getElementById("newsContainer");
 const getNews = () => {
     return new Promise((resolve, reject) => {
         let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
-        let api = `https://newsapi.org/v2/everything?q=${input.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
+        let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
         axios.get(api)
             .then((res) => {
                 if (
@@ -25,7 +25,7 @@ const getNews = () => {
 const renderNews = async () => {
 
     try {
-        if (input.value.trim()) {
+        if (userInput.value.trim()) {
     
         newsContainer.innerHTML = "";
         let response = await getNews();
