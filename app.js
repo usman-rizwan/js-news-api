@@ -1,23 +1,22 @@
 let userInput = document.getElementById("input");
 let newsContainer = document.getElementById("newsContainer");
-// let loaderSpin = document.getElementById("loaderSpin");
-// loaderSpin.style.display = "none";
+let loader = document.getElementById("loader");
+
 
 const getNews = () => {
     return new Promise((resolve, reject) => {
         let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
         let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
         fetch(api)
-        .then((res)=>{
-           return res.json()
-        })
             .then((res) => {
-                if (
-                    Array.isArray(res.articles) && res.articles.length === 0) {
+                return res.json();
+            })
+            .then((res) => {
+                if (Array.isArray(res.articles) && res.articles.length === 0) {
                     reject(err);
                 } else {
                     resolve(res);
-                  
+                   
                 }
             })
             .catch((err) => {
@@ -28,13 +27,15 @@ const getNews = () => {
 const renderNews = async () => {
     try {
         if (userInput.value.trim()) {
-    
-        newsContainer.innerHTML = "";
-        let response = await getNews();
-        console.log(response.articles);
-        let newsData = response.articles;
-        for (let i = 0; i < newsData.length; i++) {
-            newsContainer.innerHTML += `<div class="p-4 md:w-1/3">
+
+            loader.style.display = 'block'
+            console.log(loader);
+            newsContainer.innerHTML = "";
+            let response = await getNews();
+            console.log(response.articles);
+            let newsData = response.articles;
+            for (let i = 0; i < newsData.length; i++) {
+                newsContainer.innerHTML += `<div class="p-4 md:w-1/3">
         <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
           <img class="lg:h-48 md:h-36 w-full object-cover object-center" src="${newsData[i].urlToImage}" alt="blog">
           <div class="p-6">
@@ -54,6 +55,10 @@ const renderNews = async () => {
           </div>
         </div>
       </div>`;
+            }
+            loader.style.display = 'none'
+
+
             // console.log("Source ======> " + newsData[i].source.name);
             // console.log("Source ======> " + newsData[i].url);
             // console.log("author ======> " + newsData[i].author);
@@ -74,7 +79,7 @@ const renderNews = async () => {
                 title: "Found successfully",
             });
             input.value = "";
-        }}else{
+        } else {
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
