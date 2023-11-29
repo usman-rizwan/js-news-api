@@ -7,10 +7,13 @@ const getNews = () => {
     return new Promise((resolve, reject) => {
         let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
         let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
-        axios.get(api)
+        fetch(api)
+        .then((res)=>{
+           return res.json()
+        })
             .then((res) => {
                 if (
-                    Array.isArray(res.data.articles) && res.data.articles.length === 0) {
+                    Array.isArray(res.articles) && res.articles.length === 0) {
                     reject(err);
                 } else {
                     resolve(res);
@@ -23,14 +26,13 @@ const getNews = () => {
     });
 };
 const renderNews = async () => {
-
     try {
         if (userInput.value.trim()) {
     
         newsContainer.innerHTML = "";
         let response = await getNews();
-        console.log(response.data.articles);
-        let newsData = response.data.articles;
+        console.log(response.articles);
+        let newsData = response.articles;
         for (let i = 0; i < newsData.length; i++) {
             newsContainer.innerHTML += `<div class="p-4 md:w-1/3">
         <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
