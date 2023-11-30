@@ -4,7 +4,7 @@ let loader = document.getElementById("loader");
 loader.classList.toggle("hidden");
 
 const getNews = async () => {
-    let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
+    // let apiKey = `https://newsapi.org/account`;
     let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-11-01&sortBy=publishedAt&apiKey=${apiKey}`;
     loader.classList.toggle("hidden");
 
