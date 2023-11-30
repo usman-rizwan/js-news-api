@@ -1,35 +1,22 @@
 let userInput = document.getElementById("input");
 let newsContainer = document.getElementById("newsContainer");
 let loader = document.getElementById("loader");
+loader.classList.toggle("hidden");
 
+const getNews = async () => {
+    let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
+    let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-11-01&sortBy=publishedAt&apiKey=${apiKey}`;
+    loader.classList.toggle("hidden");
 
-const getNews = () => {
-    return new Promise((resolve, reject) => {
-        let apiKey = `6a69ca8858854fff89b81c1fbb7278b1`;
-        let api = `https://newsapi.org/v2/everything?q=${userInput.value}&from=2023-10-28&sortBy=publishedAt&apiKey=${apiKey}`;
-        fetch(api)
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
-                if (Array.isArray(res.articles) && res.articles.length === 0) {
-                    reject(err);
-                } else {
-                    resolve(res);
-                   
-                }
-            })
-            .catch((err) => {
-                reject(err);
-            });
-    });
+    const response = await fetch(api);
+    const data = await response.json()
+    loader.classList.toggle("hidden");
+
+    return data;
 };
 const renderNews = async () => {
     try {
         if (userInput.value.trim()) {
-
-            loader.style.display = 'block'
-            console.log(loader);
             newsContainer.innerHTML = "";
             let response = await getNews();
             console.log(response.articles);
@@ -56,7 +43,6 @@ const renderNews = async () => {
         </div>
       </div>`;
             }
-            loader.style.display = 'none'
 
 
             // console.log("Source ======> " + newsData[i].source.name);
